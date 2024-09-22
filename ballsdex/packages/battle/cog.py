@@ -198,29 +198,37 @@ class Battle(commands.GroupCog):
     async def cancel_battle(self, interaction: discord.Interaction):
         guild_battle = self.battles.get(interaction.guild_id)
 
-        if guild_battle:
-            embed = discord.Embed(
-                title="Countryballs Battle Plan",
-                description="The battle has been cancelled.",
-                color=discord.Color.red(),
-            )
-            embed.add_field(
-                name=f"{guild_battle.author}'s deck:",
-                value=gen_deck(guild_battle.battle.p1_balls),
-                inline=True,
-            )
-            embed.add_field(
-                name=f"{guild_battle.opponent}'s deck:",
-                value=gen_deck(guild_battle.battle.p2_balls),
-                inline=True,
-            )
+        if not guild_battle:
+            return
 
-            try:
-                await interaction.response.defer()
-            except discord.errors.InteractionResponded:
-                pass
-            await interaction.message.edit(embed=embed, view=create_disabled_buttons())
-            self.battles[interaction.guild_id] = None
+        if interaction.user not in (guild_battle.author, guild_battle.opponent):
+            await interaction.response.send_message(
+                "You aren't a part of this battle!", ephemeral=True
+            )
+            return
+
+        embed = discord.Embed(
+            title="Countryballs Battle Plan",
+            description="The battle has been cancelled.",
+            color=discord.Color.red(),
+        )
+        embed.add_field(
+            name=f"{guild_battle.author}'s deck:",
+            value=gen_deck(guild_battle.battle.p1_balls),
+            inline=True,
+        )
+        embed.add_field(
+            name=f"{guild_battle.opponent}'s deck:",
+            value=gen_deck(guild_battle.battle.p2_balls),
+            inline=True,
+        )
+
+        try:
+            await interaction.response.defer()
+        except discord.errors.InteractionResponded:
+            pass
+        await interaction.message.edit(embed=embed, view=create_disabled_buttons())
+        self.battles[interaction.guild_id] = None
 
     @app_commands.command()
     async def start(self, interaction: discord.Interaction, opponent: discord.Member):
