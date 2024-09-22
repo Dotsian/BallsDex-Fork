@@ -160,7 +160,7 @@ class Merge(commands.Cog):
 
         os.remove(os.getcwd() + ball1.countryball.collection_card + '-merge.png')
 
-        await interaction.followup.send_message(
+        await interaction.followup.send(
             file=discord.File(
                 buffer,
                 filename='card.png'
