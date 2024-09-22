@@ -112,6 +112,8 @@ class Merge(commands.Cog):
         Merge two countryballs together.
         """
 
+        await interaction.response.defer()
+
         name = gen_name(ball1.countryball.short_name, ball2.countryball.short_name)
         health = (ball1.countryball.health + ball2.countryball.health) // 2
         attack = (ball1.countryball.attack + ball2.countryball.attack) // 2
@@ -149,7 +151,7 @@ class Merge(commands.Cog):
                 cached_economy=ball2.countryball.cached_economy,
             )
         )
-
+        
         image = draw_card(ball_instance)
         buffer = io.BytesIO()
         image.save(buffer, format="png")
@@ -158,7 +160,7 @@ class Merge(commands.Cog):
 
         os.remove(os.getcwd() + ball1.countryball.collection_card + '-merge.png')
 
-        await interaction.response.send_message(
+        await interaction.followup.send_message(
             file=discord.File(
                 buffer,
                 filename='card.png'
