@@ -58,6 +58,7 @@ def gen_text(source, state_size, min_length):
         else:
             model[previous_words] = [current_word]
 
+    # generate text
     text = random.choice([s.split(' ') for s in model.keys() if s[0].isupper()])
 
     i = state_size
@@ -71,7 +72,7 @@ def gen_text(source, state_size, min_length):
         next_word = random.choice(model[key])
         text.append(next_word)
         i += 1
-        if i > min_length and text[-1][-1] == '.':
+        if i > min_length and text[-1][-1] in ['.', '!']:
             break
 
     return ' '.join(text)
@@ -119,7 +120,7 @@ class Merge(commands.Cog):
         attack = (ball1.countryball.attack + ball2.countryball.attack) // 2
         economy = ball1.countryball.economy
         ability = gen_text(ball1.countryball.capacity_name + ' ' + ball2.countryball.capacity_name + '.', 1, 3)
-        desc = gen_text(ball1.countryball.capacity_description + ' ' + ball2.countryball.capacity_description + '.', 1, 15)
+        desc = gen_text(ball1.countryball.capacity_description + ' ' + ball2.countryball.capacity_description + '.', 2, 15)
 
         collection1 = Image.open(os.getcwd() + ball1.countryball.collection_card).resize((1366, 768))
         collection2 = Image.open(os.getcwd() + ball2.countryball.collection_card).resize((1366, 768))
