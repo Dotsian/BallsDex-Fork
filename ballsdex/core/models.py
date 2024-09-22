@@ -233,7 +233,7 @@ class BallInstance(models.Model):
             and self.countryball.tradeable
             and getattr(self.specialcard, "tradeable", True)
         )
-
+    
     @property
     def attack(self) -> int:
         bonus = int(self.countryball.attack * self.attack_bonus * 0.01)
