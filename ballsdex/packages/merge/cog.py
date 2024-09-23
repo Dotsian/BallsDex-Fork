@@ -119,8 +119,8 @@ class Merge(commands.Cog):
         health = (ball1.countryball.health + ball2.countryball.health) // 2
         attack = (ball1.countryball.attack + ball2.countryball.attack) // 2
         economy = ball1.countryball.economy
-        ability = gen_text(ball1.countryball.capacity_name + ' ' + ball2.countryball.capacity_name + '.', 1, 3)
-        desc = gen_text(ball1.countryball.capacity_description + ' ' + ball2.countryball.capacity_description + '.', 1, 15)
+        ability = gen_text(ball1.countryball.capacity_name + '. ' + ball2.countryball.capacity_name, 1, 3)
+        desc = gen_text(ball1.countryball.capacity_description + '. ' + ball2.countryball.capacity_description, 1, 7)
 
         collection1 = Image.open(os.getcwd() + ball1.countryball.collection_card).resize((1366, 768))
         collection2 = Image.open(os.getcwd() + ball2.countryball.collection_card).resize((1366, 768))
